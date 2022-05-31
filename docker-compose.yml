@@ -23,21 +23,9 @@ services:
       - 9200:9200
       - 9300:9300
     networks:
-      - cqrs_net
+      - webnet
 
-  # kibana:
-  #   container_name: kibana
-  #   image: docker.elastic.co/kibana/kibana:7.4.0
-  #   environment:
-  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-  #   ports:
-  #     - 5601:5601
-  #   depends_on:
-  #     - elasticsearch
-  #   logging:
-  #     driver: none
-  #   networks:
-  #     - cqrs_net
+
 
   mongodb:
     image : mongo
@@ -54,7 +42,7 @@ services:
     logging:
       driver: none
     networks:
-      - cqrs_net
+      - webnet
 
   read_ms:
     container_name: read_microservice
@@ -64,7 +52,7 @@ services:
       - ./read-ms:/usr/src/app
       - /usr/src/app/node_modules
     networks:
-      - cqrs_net
+      - webnet
 
   api_gateway:
     container_name: api_gateway
@@ -76,7 +64,7 @@ services:
     ports:
       - 8080:8080
     networks:
-      - cqrs_net
+      - webnet
 
   write_ms:
     container_name: write_microservice
@@ -88,7 +76,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - cqrs_net
+      - webnet
 
   sync_pipeline:
     container_name: sync_pipeline
@@ -98,7 +86,7 @@ services:
       - ./sync-pipeline:/usr/src/app
       - /usr/src/app/node_modules
     networks:
-      - cqrs_net
+      - webnet
 
   redis:
     container_name: redis
@@ -106,7 +94,7 @@ services:
     command:
       - redis-server
     networks:
-      - cqrs_net
+      - webnet
     ports:
       - 6379:6379
     volumes:
@@ -117,4 +105,4 @@ volumes:
   mongo_data:
   elasticsearch-data:
 networks:
-  cqrs_net:
+  webnet:

@@ -23,4 +23,6 @@ The gateway pushes an event with the appropriate payload inside a Redis Queue, t
 ![plot](assets/write_test.png)
 #### Fetching users:
 ![plot](assets/read_test.png)
+## Running the Project:
+This cluster is deployed on a docker-compose stack. To run it on your environment, make sure that you have Docker & Docker-compose installed on your machine. Clone the repository then run `docker-compose up`.
 
