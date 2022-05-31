@@ -1,0 +1,120 @@
+version: '3.7'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    logging:
+      driver: none
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - cqrs_net
+
+  # kibana:
+  #   container_name: kibana
+  #   image: docker.elastic.co/kibana/kibana:7.4.0
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #   ports:
+  #     - 5601:5601
+  #   depends_on:
+  #     - elasticsearch
+  #   logging:
+  #     driver: none
+  #   networks:
+  #     - cqrs_net
+
+  mongodb:
+    image : mongo
+    container_name: mongodb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MONGO_INITDB_DATABASE=cqrs
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    logging:
+      driver: none
+    networks:
+      - cqrs_net
+
+  read_ms:
+    container_name: read_microservice
+    build:
+      context: ./read-ms
+    volumes:
+      - ./read-ms:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - cqrs_net
+
+  api_gateway:
+    container_name: api_gateway
+    build:
+      context: ./api-gateway
+    volumes:
+      - ./api-gateway:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 8080:8080
+    networks:
+      - cqrs_net
+
+  write_ms:
+    container_name: write_microservice
+    build:
+      context: ./write-ms
+    volumes:
+      - ./write-ms:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    networks:
+      - cqrs_net
+
+  sync_pipeline:
+    container_name: sync_pipeline
+    build:
+      context: ./sync-pipeline
+    volumes:
+      - ./sync-pipeline:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - cqrs_net
+
+  redis:
+    container_name: redis
+    image: 'redis:alpine'
+    command:
+      - redis-server
+    networks:
+      - cqrs_net
+    ports:
+      - 6379:6379
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+
+volumes:
+  mongo_data:
+  elasticsearch-data:
+networks:
+  cqrs_net:
