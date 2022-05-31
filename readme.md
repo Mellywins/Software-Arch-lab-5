@@ -2,7 +2,7 @@
 This repository holds the microservice(s) components our group did as part of a whole class project to implement a microservice cluster of an online shopping web application.
 Because the microservice component are limited are the number of groups vastly outnumbers the available microservices to implement, we chose to handle user creation in an optimized way that handles the scale of a massively used Online shopping website.
 ## Architecutre
-![plot](assets/Diagram.jpg)
+![plot](assets/Diagram.png)
 ## Summary
 This project consists of 3 main microservices and 1 internal:
 * API Gateway: This is the edge point of our microservice cluster, It can be integrated with other colleagues microservices in an aggregation API gateway that will aggregate all the other Gateways developed by our colleagues.
