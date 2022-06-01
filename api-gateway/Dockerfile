@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package.json ./
 
 RUN npm install 
-
+ENV PORT=8080
 COPY . .
 
 RUN npm run build

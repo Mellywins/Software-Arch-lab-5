@@ -48,6 +48,7 @@ services:
     container_name: read_microservice
     build:
       context: ./read-ms
+    image: mellywins/read-ms:latest
     volumes:
       - ./read-ms:/usr/src/app
       - /usr/src/app/node_modules
@@ -58,6 +59,7 @@ services:
     container_name: api_gateway
     build:
       context: ./api-gateway
+    image: mellywins/api-gateway:latest
     volumes:
       - ./api-gateway:/usr/src/app
       - /usr/src/app/node_modules
@@ -70,6 +72,7 @@ services:
     container_name: write_microservice
     build:
       context: ./write-ms
+    image: mellywins/write_ms:latest
     volumes:
       - ./write-ms:/usr/src/app
       - /usr/src/app/node_modules
@@ -82,6 +85,7 @@ services:
     container_name: sync_pipeline
     build:
       context: ./sync-pipeline
+    image: mellywins/sync-pipeline:latest
     volumes:
       - ./sync-pipeline:/usr/src/app
       - /usr/src/app/node_modules
