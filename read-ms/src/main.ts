@@ -27,7 +27,7 @@ async function bootstrap() {
     },
   });
   await app.startAllMicroservices();
-  app.listen(80).then(() => {
+  app.listen(80, '0.0.0.0').then(() => {
     Logger.log('Microservice listening on port 80');
   });
 }

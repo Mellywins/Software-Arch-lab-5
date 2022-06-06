@@ -12,5 +12,5 @@ COPY . .
 
 RUN npm run build
 
-CMD npm run start:dev
+CMD [ "node", "dist/main.js" ]
 # ENTRYPOINT [ "npm","run","start:dev" ]
