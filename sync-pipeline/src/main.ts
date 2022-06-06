@@ -6,19 +6,18 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const redisHost = process.env.REDIS_HOST;
   const redisPort = process.env.REDIS_PORT;
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.REDIS,
-      options: {
-        url: `redis://${redisHost ? redisHost : 'redis'}:${
-          redisPort ? redisPort : 6379
-        }`,
-      },
+  const app = await NestFactory.create(AppModule);
+  app.connectMicroservice({
+    transport: Transport.REDIS,
+    options: {
+      url: `redis://${redisHost ? redisHost : 'redis'}:${
+        redisPort ? redisPort : 6379
+      }`,
     },
-  );
-  app.listen().then(() => {
-    Logger.log('Sync Pipeline listening on port 3002');
+  });
+  await app.startAllMicroservices();
+  app.listen(80, '0.0.0.0').then(() => {
+    Logger.log('Microservice listening on port 80');
   });
 }
 bootstrap();

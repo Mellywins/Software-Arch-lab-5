@@ -1,0 +1,30 @@
+elasticsearch:
+  nameOverride: elastic
+  fullnameOverride: elastic
+  clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+  # Change it in multi-node cluster
+  replicas: 1
+  minimumMasterNodes: 1
+  # Change it to "hard" in production
+  antiAffinity: "soft"
+  # Request smaller persistent volumes.
+
+  envFrom:
+    - secretRef:
+        name: elastic-secret
+  # Shrink default JVM heap.
+  esJavaOpts: "-Xmx256m -Xms256m"
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 200
+    periodSeconds: 10
+    successThreshold: 3
+    timeoutSeconds: 5
+  # Allocate smaller chunks of memory per pod.
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "500Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"

@@ -1,0 +1,7 @@
+auth:
+  enabled: true 
+  rootUser: root
+  rootPassword: ""
+  usernames: []
+  passwords: []
+  databases: ["cqrs"]

@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: mellywins/read-ms
+  repository: mellywins/write_ms
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "dist"
+  tag: "latest"
 namespace: test
 imagePullSecrets: []
 nameOverride: ""
@@ -17,6 +17,9 @@ isApiGateway: false
 envVariables:
   REDIS_HOST: "redis-cip.test.svc.cluster.local"
   REDIS_PORT: 6379
+  MONGO_HOST: "mongo-release-mongodb.test.svc.cluster.local"
+  MONGO_PORT: 27017
+  MONGO_DB_NAME: cqrs
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

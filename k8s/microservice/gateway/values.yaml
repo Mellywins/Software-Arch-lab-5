@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: mellywins/read-ms
+  repository: mellywins/api-gateway
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "dist"
+  tag: "latest"
 namespace: test
 imagePullSecrets: []
 nameOverride: ""
@@ -17,6 +17,7 @@ isApiGateway: false
 envVariables:
   REDIS_HOST: "redis-cip.test.svc.cluster.local"
   REDIS_PORT: 6379
+  PORT: 80
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -40,7 +41,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 80
 
 ingress:

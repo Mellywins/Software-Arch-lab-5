@@ -17,6 +17,7 @@ isApiGateway: false
 envVariables:
   REDIS_HOST: "redis-cip.test.svc.cluster.local"
   REDIS_PORT: 6379
+  ELASTICSEARCH_URL: "http://elastic.test.svc.cluster.local:9200"
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

@@ -18,7 +18,7 @@ async function bootstrap() {
   //   },
   // );
   const app = await NestFactory.create(AppModule);
-  const microservice = app.connectMicroservice({
+  app.connectMicroservice({
     transport: Transport.REDIS,
     options: {
       url: `redis://${redisHost ? redisHost : 'redis'}:${
