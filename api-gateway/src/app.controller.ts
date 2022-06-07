@@ -97,14 +97,22 @@ export class AppController {
           return { payload: v, count: v.length };
         }),
       )
-      .subscribe(
-        (e) => {
+      // .subscribe(
+      //   (e) => {
+      //     response.status(HttpStatus.OK).send(e);
+      //   },
+      //   (err) => {
+      //     throw new HttpException(err.message, 500);
+      //   },
+      // );
+      .subscribe({
+        next: (e: any) => {
           response.status(HttpStatus.OK).send(e);
         },
-        (err) => {
+        error: (err: Error) => {
           throw new HttpException(err.message, 500);
         },
-      );
+      });
   }
   @Get('userByEmail')
   async getUserByEmail(@Body() payload: { email: string }, @Res() response) {
@@ -120,7 +128,14 @@ export class AppController {
           return e;
         }),
       )
-      .subscribe((e) => response.status(HttpStatus.OK).send(e));
+      .subscribe({
+        next: (e: any) => {
+          response.status(HttpStatus.OK).send(e);
+        },
+        error: (err: Error) => {
+          throw new HttpException(err.message, 500);
+        },
+      });
   }
   @Get()
   getHello(): string {
